@@ -1,0 +1,668 @@
+
+## #############################################################################
+## PART 0: DATA
+## #############################################################################
+## -- Monthly commodity price indices (Apr 2012 - Apr 2026), m = 169 --
+Cardamom <- c(
+  118.5,119.3,113.6,112.1,112.7,105.2,101.6,101.8,108.9,109.6,
+  110.2,102.3,100.6,97.4,97.2,96.4,100.8,104.7,104.2,103.0,
+  103.2,103.6,105.7,108.5,113.6,118.8,115.0,113.8,113.5,121.3,
+  119.9,119.1,122.2,133.0,138.3,132.8,129.5,127.0,124.4,124.1,
+  122.3,121.4,120.6,119.9,120.3,122.0,119.0,116.9,119.5,126.2,
+  128.3,128.0,137.3,140.4,138.2,142.0,148.9,154.3,157.0,151.0,
+  143.8,134.4,128.4,130.8,136.6,141.5,125.6,114.8,114.9,125.9,
+  128.9,126.9,125.7,122.1,120.8,123.4,126.5,134.7,130.6,131.7,
+  132.2,134.3,138.5,134.9,145.7,169.0,180.6,196.7,203.9,189.3,
+  180.5,178.5,185.5,207.7,197.6,179.9,178.2,174.1,158.2,157.2,
+  157.5,155.0,136.7,137.3,148.9,146.2,138.4,137.5,132.3,119.1,
+  120.9,120.7,125.3,127.9,128.7,134.6,130.4,120.2,120.0,119.3,
+  120.8,115.7,108.8,109.3,115.5,114.1,113.0,108.1,106.5,109.2,
+  131.9,153.9,156.4,154.2,144.2,153.8,213.1,226.3,211.6,202.3,
+  208.5,223.0,208.5,205.9,227.8,262.7,281.8,282.5,276.4,265.4,
+  269.0,293.7,325.6,339.9,336.8,321.8,305.9,282.7,287.8,297.6,
+  299.5,288.8,286.0,291.5,290.3,297.9,297.4,290.3,299.1
+)
+
+Ginger_Dry <- c(
+  72.4,67.0,69.0,77.3,82.5,82.4,83.1,95.3,102.3,102.4,
+  102.5,104.7,111.8,116.1,120.5,126.2,130.2,131.9,132.1,138.9,
+  147.6,152.5,158.8,164.7,184.0,197.9,186.7,181.4,175.2,162.3,
+  154.4,158.4,147.4,146.0,152.9,164.6,167.4,163.5,167.8,172.1,
+  165.9,161.3,157.2,158.5,159.8,154.2,153.0,151.8,145.5,139.6,
+  142.2,141.1,135.1,131.1,129.2,130.4,133.1,133.4,129.8,126.4,
+  121.1,114.9,111.1,109.2,114.0,116.7,118.6,116.7,114.7,117.1,
+  118.5,119.9,124.5,129.7,129.2,133.4,135.3,151.2,149.3,153.4,
+  154.0,164.8,174.8,174.2,169.4,172.3,178.2,187.9,209.2,206.9,
+  200.6,209.8,213.1,208.8,214.0,209.1,212.5,213.5,212.1,213.7,
+  210.2,215.1,219.3,221.1,222.8,188.8,172.1,164.6,163.6,164.1,
+  169.3,165.3,161.3,299.4,294.6,282.7,282.3,281.8,260.9,241.8,
+  241.8,239.5,244.6,258.2,254.5,250.8,251.3,257.6,272.5,277.8,
+  282.3,291.8,301.1,322.4,354.8,384.1,429.1,474.1,475.8,470.3,
+  466.5,472.9,481.1,491.2,500.2,506.8,508.5,503.6,498.0,506.4,
+  516.1,522.7,537.2,541.3,512.4,493.7,474.3,462.1,460.8,434.7,
+  426.7,442.4,448.8,450.0,458.2,464.2,476.5,479.0,483.3
+)
+
+Cumin <- c(
+  99.3,99.2,99.1,99.2,100.9,102.7,105.8,104.7,108.9,106.4,
+  104.4,99.4,102.2,101.4,99.1,101.4,100.2,101.8,101.9,101.9,
+  101.7,102.6,101.2,97.0,93.6,93.4,89.9,89.4,89.8,89.7,
+  90.1,89.2,89.1,90.8,94.9,99.2,104.3,108.1,111.2,114.7,
+  112.0,109.5,110.0,107.9,107.1,105.2,104.5,102.1,111.1,116.5,
+  115.9,118.7,127.4,127.3,127.7,128.7,131.4,131.7,128.2,123.2,
+  131.5,130.8,129.6,132.1,133.1,132.2,133.1,133.5,140.4,137.2,
+  133.3,120.7,121.0,119.3,120.9,130.3,132.0,131.2,131.5,134.3,
+  127.9,127.5,123.5,119.4,121.0,123.0,123.2,123.0,121.8,119.9,
+  119.5,119.7,119.8,119.6,116.2,113.3,111.0,112.8,109.9,108.1,
+  106.2,107.6,103.2,102.0,104.6,103.1,101.2,105.5,103.9,100.0,
+  93.9,93.1,94.6,103.3,99.5,103.5,107.4,113.4,123.0,128.5,
+  136.8,152.8,148.7,151.0,156.5,157.7,161.5,161.8,182.3,205.2,
+  200.5,205.9,230.7,267.7,291.0,402.5,423.9,424.1,412.0,372.1,
+  337.3,310.2,309.9,268.8,235.6,266.5,240.3,222.1,213.7,212.6,
+  206.3,199.3,191.3,181.1,174.1,178.8,197.3,182.6,167.8,174.7,
+  165.8,161.4,143.5,157.9,166.0,171.4,168.9,166.9,170.6
+)
+
+Garlic <- c(
+  44.4,39.7,40.8,40.9,42.3,40.0,37.1,33.2,32.0,33.7,
+  35.5,39.9,54.1,64.1,64.0,63.3,60.9,61.7,63.1,83.1,
+  86.9,81.6,77.9,82.2,78.7,86.4,85.0,95.2,104.8,107.3,
+  101.3,94.5,93.1,99.4,105.2,98.5,85.6,91.0,112.1,130.4,
+  143.9,143.2,134.1,151.0,176.4,167.0,153.6,120.7,103.7,122.5,
+  141.5,151.7,178.7,180.1,174.3,171.8,171.9,181.4,160.9,119.7,
+  96.1,89.8,86.6,84.7,84.0,74.9,73.1,72.7,65.2,61.6,
+  63.5,55.0,53.2,47.7,45.9,50.7,50.4,47.1,43.9,41.9,
+  42.5,41.9,48.4,56.0,67.6,79.8,83.5,86.0,103.0,115.2,
+  150.9,166.8,159.3,159.2,139.2,113.0,111.4,100.2,97.0,93.6,
+  109.7,120.8,118.4,121.6,119.5,120.9,107.0,96.4,92.8,94.1,
+  106.6,108.5,102.7,97.4,95.7,84.4,67.4,58.6,70.8,71.1,
+  67.4,66.4,68.1,64.2,63.5,52.7,51.4,59.0,56.8,60.9,
+  77.5,86.6,95.3,104.3,120.3,163.9,199.1,199.4,194.9,217.0,
+  312.1,351.0,400.5,252.2,237.0,269.8,272.2,300.7,338.6,439.0,
+  460.5,487.1,508.1,427.8,268.0,157.3,136.5,133.9,145.2,137.9,
+  124.5,125.9,131.8,130.6,132.7,146.5,155.0,147.5,151.3
+)
+
+## -- Gold futures daily closing price, chronological order, m = 24 --
+Gold <- c(
+  4015.90,4076.40,4151.90,4050.20,4070.80,4077.00,4038.70,4097.00,4160.60,4107.00,
+  4090.50,4152.60,4305.20,4299.60,4399.70,4419.70,4441.10,4467.50,4420.40,4437.30,
+  4473.70,4420.60,4569.14,4550.14
+)
+
+
+price_series <- list(
+  `Cardamom`     = Cardamom,
+  `Ginger (Dry)` = Ginger_Dry,
+  `Cumin`        = Cumin,
+  `Garlic`       = Garlic,
+  `Gold futures` = Gold
+)
+
+price_units <- c(
+  `Cardamom`     = "Index value",
+  `Ginger (Dry)` = "Index value",
+  `Cumin`        = "Index value",
+  `Garlic`       = "Index value",
+  `Gold futures` = "USD"
+)
+
+log_return <- function(x) {
+  x <- as.numeric(x)
+  100 * (log(x[-1]) - log(x[-length(x)]))
+}
+
+
+
+## #############################################################################
+## PART 1: CORE GENERATORS AND ESTIMATOR FUNCTION LIBRARY
+## #############################################################################
+
+rstable_sym <- function(n, alpha) {
+  U <- runif(n, -pi / 2, pi / 2)
+  W <- rexp(n, rate = 1)
+  if (abs(alpha - 1) < 1e-8) {
+    return(tan(U))  # symmetric Cauchy
+  }
+  term1 <- sin(alpha * U) / (cos(U))^(1 / alpha)
+  term2 <- (cos(U - alpha * U) / W)^((1 - alpha) / alpha)
+  term1 * term2
+}
+
+rwrapped_stable_full <- function(m, alpha, rho, mu = 0) {
+  sigma <- (-log(rho))^(1 / alpha)
+  Z <- rstable_sym(m, alpha)
+  X <- sigma * Z
+  theta <- (mu + X) %% (2 * pi)
+  list(X = X, theta = theta)
+}
+
+rwrapped_stable <- function(m, alpha, rho, mu = 0) {
+  rwrapped_stable_full(m, alpha, rho, mu)$theta
+}
+
+## -----------------------------------------------------------------------
+## 2. Empirical trigonometric moments
+## -----------------------------------------------------------------------
+
+Cbar_p <- function(theta, p) mean(cos(p * theta))
+Sbar_p <- function(theta, p) mean(sin(p * theta))
+Rbar_p <- function(theta, p) sqrt(Cbar_p(theta, p)^2 + Sbar_p(theta, p)^2)
+
+## -----------------------------------------------------------------------
+## 3. Existing two-point estimator 
+## -----------------------------------------------------------------------
+
+alpha_WS2 <- function(theta) {
+  R1 <- Rbar_p(theta, 1)
+  R2 <- Rbar_p(theta, 2)
+  log(log(R2) / log(R1)) / log(2)
+}
+
+## -----------------------------------------------------------------------
+## 4. Proposed K-point regression estimator (OLS)
+## -----------------------------------------------------------------------
+
+## Returns the OLS slope of y_p = ln(-ln Rbar_p) on x_p = ln p, p = 1..K.
+## K = 2 reproduces alpha_WS2() exactly.
+alpha_WS_K <- function(theta, K) {
+  p_seq <- 1:K
+  Rp <- vapply(p_seq, function(p) Rbar_p(theta, p), numeric(1))
+  y <- log(-log(Rp))
+  x <- log(p_seq)
+  xm <- mean(x); ym <- mean(y)
+  sum((x - xm) * (y - ym)) / sum((x - xm)^2)
+}
+
+## Truncation to the admissible range (0, 2], matching the existing
+## literature's truncated trigonometric moment (ttm) device: only the
+## upper boundary is truncated (estimates >= 2 are set to 2).
+truncate_alpha <- function(a) if (a >= 2) 2 else a
+
+## -----------------------------------------------------------------------
+## 5. Theoretical asymptotic covariance Sigma_K and Jacobian J
+## -----------------------------------------------------------------------
+
+## rho_j = rho^(|j|^alpha), with the convention rho_0 = 1.
+rho_j <- function(j, alpha, rho) rho^(abs(j)^alpha)
+
+## Population 2K-vector xi = E[(cos theta, sin theta, ..., cos K theta,
+## sin K theta)].
+xi_vec <- function(alpha, rho, mu, K) {
+  out <- numeric(2 * K)
+  for (p in 1:K) {
+    out[2 * p - 1] <- rho_j(p, alpha, rho) * cos(p * mu)
+    out[2 * p]     <- rho_j(p, alpha, rho) * sin(p * mu)
+  }
+  out
+}
+
+## Full 2K x 2K asymptotic covariance matrix of
+## (Cbar_1, Sbar_1, ..., Cbar_K, Sbar_K). See Section 5.2 of the note for
+## the derivation via product-to-sum identities; numerically validated
+## against Monte Carlo simulation (agreement to within ~1-4%).
+build_SigmaK <- function(alpha, rho, mu, K) {
+  Sigma <- matrix(0, 2 * K, 2 * K)
+  xiC <- function(p) rho_j(p, alpha, rho) * cos(p * mu)
+  xiS <- function(p) rho_j(p, alpha, rho) * sin(p * mu)
+  CC <- function(p, q) 0.5 * (rho_j(p - q, alpha, rho) * cos((p - q) * mu) +
+                                rho_j(p + q, alpha, rho) * cos((p + q) * mu)) -
+                          xiC(p) * xiC(q)
+  SS <- function(p, q) 0.5 * (rho_j(p - q, alpha, rho) * cos((p - q) * mu) -
+                                rho_j(p + q, alpha, rho) * cos((p + q) * mu)) -
+                          xiS(p) * xiS(q)
+  CS <- function(p, q) 0.5 * (rho_j(p + q, alpha, rho) * sin((p + q) * mu) -
+                                rho_j(p - q, alpha, rho) * sin((p - q) * mu)) -
+                          xiC(p) * xiS(q)
+  for (p in 1:K) for (q in 1:K) {
+    Sigma[2 * p - 1, 2 * q - 1] <- CC(p, q)
+    Sigma[2 * p,     2 * q]     <- SS(p, q)
+    Sigma[2 * p - 1, 2 * q]     <- CS(p, q)
+    Sigma[2 * q,     2 * p - 1] <- CS(p, q)  # symmetry: Cov(S_q,C_p)=Cov(C_p,S_q)
+  }
+  Sigma
+}
+
+## K x 2K Jacobian of y_p = ln(-ln Rbar_p) at the population point,
+## block-diagonal with 1x2 blocks (-cos(p*mu)/(rho_p*ln rho_p),
+## -sin(p*mu)/(rho_p*ln rho_p)).
+build_J <- function(alpha, rho, mu, K) {
+  J <- matrix(0, K, 2 * K)
+  for (p in 1:K) {
+    rp <- rho_j(p, alpha, rho)
+    g <- -1 / (rp * log(rp))
+    J[p, 2 * p - 1] <- g * cos(p * mu)
+    J[p, 2 * p]     <- g * sin(p * mu)
+  }
+  J
+}
+
+## OLS weight vector a (K x 1) such that alpha_hat_K = a' * y.
+ols_weights <- function(K) {
+  x <- log(1:K)
+  xm <- mean(x)
+  (x - xm) / sum((x - xm)^2)
+}
+
+## Asymptotic variance of sqrt(m)*(alpha_hat_K - alpha) under the OLS
+## regression estimator, i.e. a' J Sigma_K J' a.
+asymptotic_var_OLS <- function(alpha, rho, mu, K) {
+  Sigma <- build_SigmaK(alpha, rho, mu, K)
+  J <- build_J(alpha, rho, mu, K)
+  a <- ols_weights(K)
+  as.numeric(t(a) %*% J %*% Sigma %*% t(J) %*% a)
+}
+
+## -----------------------------------------------------------------------
+## 6. GLS refinement (plug-in, two-stage)
+## -----------------------------------------------------------------------
+
+alpha_WS_K_GLS <- function(theta, K, cond_tol = 1e10) {
+  m <- length(theta)
+  a0 <- truncate_alpha(alpha_WS_K(theta, min(K, 2)))
+  a0 <- min(max(a0, 0.05), 2)
+  rho0 <- min(max(Rbar_p(theta, 1), 1e-6), 0.999)
+  mu0 <- atan2(Sbar_p(theta, 1), Cbar_p(theta, 1))
+
+  Sigma <- build_SigmaK(a0, rho0, mu0, K)
+  J <- build_J(a0, rho0, mu0, K)
+  W <- (J %*% Sigma %*% t(J)) / m
+
+  diag_scale <- max(diag(W), 1e-12)
+  W_reg <- W + diag(diag_scale * 1e-6, K)
+
+  kappa <- tryCatch(1 / rcond(W_reg), error = function(e) Inf)
+  if (!is.finite(kappa) || kappa > cond_tol) {
+    return(alpha_WS_K(theta, K))   # GLS weighting unreliable -> fall back to OLS
+  }
+
+  p_seq <- 1:K
+  Rp <- vapply(p_seq, function(p) Rbar_p(theta, p), numeric(1))
+  y <- log(-log(Rp)); X <- cbind(1, log(p_seq))
+
+  Winv <- tryCatch(solve(W_reg), error = function(e) NULL)
+  if (is.null(Winv)) return(alpha_WS_K(theta, K))
+
+  beta_gls <- tryCatch(
+    solve(t(X) %*% Winv %*% X) %*% t(X) %*% Winv %*% y,
+    error = function(e) NULL
+  )
+  if (is.null(beta_gls)) return(alpha_WS_K(theta, K))
+  as.numeric(beta_gls[2])
+}
+
+## -----------------------------------------------------------------------
+## 7. Signal-to-noise rule for choosing K, and the adaptive estimator
+## -----------------------------------------------------------------------
+
+## Practical upper bound on K: the smallest-signal frequency rho_p should
+## not fall too far below the O(1/sqrt(2m)) leading-order sampling noise
+## floor of Rbar_p. Solving rho^(K^alpha) = c0/sqrt(2m) for K gives
+##   K*(alpha, rho, m; c0) = [ ln(c0/sqrt(2m)) / ln(rho) ]^(1/alpha).
+Kstar <- function(alpha, rho, m, c0 = 2, Kmin = 2, Kmax = 15) {
+  if (rho <= 0 || rho >= 1 || alpha <= 0) return(Kmin)
+  val <- log(c0 / sqrt(2 * m)) / log(rho)
+  if (val <= 0) return(Kmin)
+  K <- val^(1 / alpha)
+  as.integer(min(max(round(K), Kmin), Kmax))
+}
+
+## Two-stage adaptive estimator:
+##   Stage 1 (pilot): estimate (alpha, rho) with the existing K=2 estimator.
+##   Stage 2: plug the pilot values into Kstar() to obtain K-hat, then
+##            recompute the regression estimator with K = K-hat points.
+alpha_adaptive <- function(theta, c0 = 2, Kmin = 2, Kmax = 15) {
+  m <- length(theta)
+  a_pilot <- truncate_alpha(alpha_WS2(theta))
+  a_pilot <- min(max(a_pilot, 0.05), 2)
+  rho_pilot <- min(max(Rbar_p(theta, 1), 1e-6), 0.999)
+  Khat <- Kstar(a_pilot, rho_pilot, m, c0 = c0, Kmin = Kmin, Kmax = Kmax)
+  list(alpha_hat = truncate_alpha(alpha_WS_K(theta, Khat)), K_used = Khat)
+}
+
+## -----------------------------------------------------------------------
+## 8. Characteristic-function-based estimator (Anderson & Arnold, 1993)
+## -----------------------------------------------------------------------
+gauss_hermite <- function(m) {
+  if (m < 2) stop("m must be >= 2")
+  i <- 1:(m - 1)
+  offdiag <- sqrt(i / 2)
+  J <- matrix(0, m, m)
+  for (k in 1:(m - 1)) {
+    J[k, k + 1] <- offdiag[k]
+    J[k + 1, k] <- offdiag[k]
+  }
+  eig <- eigen(J, symmetric = TRUE)
+  ord <- order(eig$values)
+  nodes <- eig$values[ord]
+  vecs <- eig$vectors[, ord, drop = FALSE]
+  weights <- sqrt(pi) * (vecs[1, ])^2
+  list(nodes = nodes, weights = weights)
+}
+
+alpha_CF <- function(x, m_nodes = 10, n_starts = 9) {
+  gh <- gauss_hermite(m_nodes)
+  z <- gh$nodes; w <- gh$weights
+  eta_hat <- vapply(z, function(t) mean(cos(t * x)), numeric(1))
+
+  iqr <- diff(quantile(x, c(0.25, 0.75)))
+  sigma_init <- max(iqr / 2, 1e-3)
+  sigma_lo <- sigma_init / 50
+  sigma_hi <- sigma_init * 50
+
+  obj <- function(par) {
+    alpha <- par[1]; sigma <- par[2]
+    psi <- exp(-abs(sigma * z)^alpha)
+    sum(w * (eta_hat - psi)^2)
+  }
+
+  alpha_inits <- seq(0.15, 1.95, length.out = n_starts)
+  sigma_mults <- c(0.3, 1.0, 3.0)
+
+  best <- NULL
+  for (a0 in alpha_inits) {
+    for (sm in sigma_mults) {
+      s0 <- min(max(sigma_init * sm, sigma_lo), sigma_hi)
+      opt <- tryCatch(
+        optim(par = c(a0, s0), fn = obj, method = "L-BFGS-B",
+              lower = c(0.02, sigma_lo), upper = c(2, sigma_hi)),
+        error = function(e) NULL
+      )
+      if (!is.null(opt) && (is.null(best) || opt$value < best$value)) best <- opt
+    }
+  }
+  at_boundary <- (best$par[2] >= 0.999 * sigma_hi) || (best$par[2] <= 1.001 * sigma_lo)
+  list(alpha = best$par[1], sigma = best$par[2], value = best$value,
+       boundary_pinned = at_boundary)
+
+}
+## #############################################################################
+## PART 2: SIMULATION STUDY (reproduces Section 6 of the paper)
+## #############################################################################
+
+
+
+simulate_config <- function(alpha_true, rho_true, m, K_list,
+                             nrep = 1000, seed = NULL,
+                             include_CF = TRUE, cf_n_starts = 5) {
+  if (!is.null(seed)) set.seed(seed)
+
+  methods <- c("K2_existing",
+               paste0("OLS_K", K_list),
+               paste0("GLS_K", K_list),
+               "adaptive")
+  if (include_CF) methods <- c(methods, "CF")
+
+  store <- matrix(NA_real_, nrow = nrep, ncol = length(methods))
+  colnames(store) <- methods
+  Khat_used <- numeric(nrep)
+
+  for (r in 1:nrep) {
+    samp <- rwrapped_stable_full(m, alpha_true, rho_true, mu = 0)
+    theta <- samp$theta
+
+    store[r, "K2_existing"] <- truncate_alpha(alpha_WS2(theta))
+    for (K in K_list) {
+      store[r, paste0("OLS_K", K)] <- truncate_alpha(alpha_WS_K(theta, K))
+      store[r, paste0("GLS_K", K)] <- truncate_alpha(alpha_WS_K_GLS(theta, K))
+    }
+    ad <- alpha_adaptive(theta)
+    store[r, "adaptive"] <- ad$alpha_hat
+    Khat_used[r] <- ad$K_used
+
+    if (include_CF) {
+      cf <- alpha_CF(samp$X, n_starts = cf_n_starts)
+      store[r, "CF"] <- cf$alpha
+    }
+  }
+
+  bias <- colMeans(store) - alpha_true
+  rmse <- sqrt(colMeans((store - alpha_true)^2))
+
+  data.frame(
+    method    = methods,
+    alpha     = alpha_true,
+    rho       = rho_true,
+    m         = m,
+    mean_bias = round(bias, 4),
+    RMSE      = round(rmse, 4),
+    row.names = NULL
+  )
+}
+
+## -----------------------------------------------------------------------
+## 10. Example: reproduce the comparison grid of Section 6
+## -----------------------------------------------------------------------
+
+grid <- expand.grid(
+  alpha_true = c(0.8, 1.3, 1.8),
+   rho_true   = c(0.6, 0.9),
+   m          = c(30, 50, 80, 100)
+ )
+
+ results <- do.call(rbind, lapply(seq_len(nrow(grid)), function(i) {
+   g <- grid[i, ]
+   simulate_config(g$alpha_true, g$rho_true, g$m,
+                    K_list = c(3, 5, 8), nrep = 1000, seed = 100 + i,
+                    include_CF = TRUE, cf_n_starts = 5)
+ }))
+
+ write.csv(results, "simulation_results.csv", row.names = FALSE)
+ print(results)
+
+
+## #############################################################################
+## PART 3: APPLICATION TO REAL DATA (reproduces Section 7 of the paper)
+## #############################################################################
+
+
+n_series <- length(price_series)
+
+op <- par(mfrow = c(n_series, 2), mar = c(4.2, 4.2, 2.5, 1.5))
+
+for (nm in names(price_series)) {
+  x <- as.numeric(price_series[[nm]])
+  z <- log_return(x)
+
+  hist(x, breaks = 20, col = "goldenrod2", border = "white",
+       main = paste0(nm, ": Price"),
+       xlab = price_units[[nm]], ylab = "Frequency")
+
+  hist(z, breaks = 20, col = "steelblue3", border = "white",
+       main = paste0(nm, ": Log-return"),
+       xlab = expression(100*(ln~P[t] - ln~P[t-1])), ylab = "Frequency")
+}
+par(op)
+
+
+## -----------------------------------------------------------------------
+## 3. Estimation: apply every method to each series, with bootstrap SEs
+## -----------------------------------------------------------------------
+
+K_list <- c(3, 5, 8)     # single definition, used consistently throughout
+B_boot <- 500
+cf_n_starts <- 9
+
+analyze_series <- function(prices, name, seed = 1) {
+  z <- log_return(prices)
+  n <- length(z)
+  theta <- z %% (2 * pi)          # TRUE modular wrapping (not to_angle())
+
+  point <- list()
+  point$K2_existing <- truncate_alpha(alpha_WS2(theta))
+  for (K in K_list) {
+    point[[paste0("OLS_K", K)]] <- truncate_alpha(alpha_WS_K(theta, K))
+    point[[paste0("GLS_K", K)]] <- truncate_alpha(alpha_WS_K_GLS(theta, K))
+  }
+  ad <- alpha_adaptive(theta)
+  point$adaptive   <- ad$alpha_hat
+  point$adaptive_K <- ad$K_used
+  cf <- alpha_CF(z, n_starts = cf_n_starts)
+  point$CF <- cf$alpha
+  point$CF_sigma <- cf$sigma
+  point$CF_boundary_pinned <- cf$boundary_pinned
+
+  rho_hat <- Rbar_p(theta, 1)
+  mu_hat  <- atan2(Sbar_p(theta, 1), Cbar_p(theta, 1))
+  frac_beyond_pi <- mean(abs(z) > pi)
+
+  set.seed(seed)
+  boot_names <- c("K2_existing", paste0("OLS_K", K_list),
+                   paste0("GLS_K", K_list), "adaptive", "CF")
+  boot <- matrix(NA_real_, B_boot, length(boot_names))
+  colnames(boot) <- boot_names
+  for (b in 1:B_boot) {
+    idx <- sample.int(n, n, replace = TRUE)
+    zb <- z[idx]
+    thb <- zb %% (2 * pi)
+    boot[b, "K2_existing"] <- truncate_alpha(alpha_WS2(thb))
+    for (K in K_list) {
+      boot[b, paste0("OLS_K", K)] <- truncate_alpha(alpha_WS_K(thb, K))
+      boot[b, paste0("GLS_K", K)] <- truncate_alpha(alpha_WS_K_GLS(thb, K))
+    }
+    boot[b, "adaptive"] <- alpha_adaptive(thb)$alpha_hat
+    boot[b, "CF"] <- alpha_CF(zb, n_starts = 5)$alpha
+  }
+  se <- apply(boot, 2, sd)
+
+  list(name = name, n = n, rho_hat = rho_hat, mu_hat = mu_hat,
+       frac_beyond_pi = frac_beyond_pi, point = point, se = se)
+}
+
+results <- lapply(names(price_series), function(nm) analyze_series(price_series[[nm]], nm))
+names(results) <- names(price_series)
+
+for (r in results) {
+  cat(sprintf("\n=== %s (n = %d returns) ===  rho_hat = %.3f   frac(|z|>pi) = %.2f\n",
+              r$name, r$n, r$rho_hat, r$frac_beyond_pi))
+  for (k in c("K2_existing", paste0("OLS_K", K_list), paste0("GLS_K", K_list), "adaptive")) {
+    cat(sprintf("  %-14s = %8.4f   bootstrap SE = %.4f\n", k, r$point[[k]], r$se[[k]]))
+  }
+  flag <- if (isTRUE(r$point$CF_boundary_pinned)) "  [BOUNDARY-PINNED: treat with caution]" else ""
+  cat(sprintf("  %-14s = %8.4f   bootstrap SE = %.4f%s\n", "CF", r$point$CF, r$se[["CF"]], flag))
+}
+
+row_from_result <- function(r) {
+  base <- data.frame(series = r$name, n = r$n, rho_hat = r$rho_hat,
+                      mu_hat = r$mu_hat, frac_beyond_pi = r$frac_beyond_pi)
+  pts <- as.data.frame(r$point[setdiff(names(r$point),
+                                        c("adaptive_K", "CF_sigma", "CF_boundary_pinned"))])
+  names(pts) <- paste0("est_", names(pts))
+  ses <- as.data.frame(as.list(r$se))
+  names(ses) <- paste0("se_", names(ses))
+  cbind(base, adaptive_K = r$point$adaptive_K,
+        CF_sigma = r$point$CF_sigma,
+        CF_boundary_pinned = r$point$CF_boundary_pinned,
+        pts, ses)
+}
+
+results_df <- do.call(rbind, lapply(results, row_from_result))
+write.csv(results_df, "application_results.csv", row.names = FALSE)
+print(results_df)
+
+
+## -----------------------------------------------------------------------
+## 4. Grouped bar chart: alpha-hat by method, across series
+## -----------------------------------------------------------------------
+
+methods <- c("K2_existing", paste0("OLS_K", K_list), paste0("GLS_K", K_list),
+             "CF", "adaptive")
+plot_mat <- t(as.matrix(results_df[, paste0("est_", methods)]))
+colnames(plot_mat) <- results_df$series
+rownames(plot_mat) <- methods
+
+dev.new()
+op <- par(mar = c(9, 4, 3, 9), xpd = TRUE)
+barplot(plot_mat, beside = TRUE,
+        col = rainbow(length(methods), s = 0.6),
+        ylim = c(min(0, plot_mat) - 0.1, 2),
+        las = 2, ylab = expression(hat(alpha)),
+        main = "Estimated alpha from log returns, by method and series")
+abline(h = 0, lty = 2, col = "grey40")
+legend("topright", inset = c(-0.28, 0), legend = methods,
+       fill = rainbow(length(methods), s = 0.6), bty = "n", cex = 0.7)
+par(op)
+
+
+## -----------------------------------------------------------------------
+## 5. Risk analysis: VaR / Expected Shortfall from the fitted stable model
+## -----------------------------------------------------------------------
+
+sigma_hat_from_returns <- function(r, alpha, K = 5) {
+  z  <- r - median(r)
+  s  <- sd(z)
+  t0 <- 1 / s
+  t_seq <- (1:K) * t0
+  Cb <- vapply(t_seq, function(t) mean(cos(t * z)), numeric(1))
+  Sb <- vapply(t_seq, function(t) mean(sin(t * z)), numeric(1))
+  Rb <- pmin(pmax(sqrt(Cb^2 + Sb^2), 1e-8), 1 - 1e-8)
+  y  <- log(-log(Rb)); x <- log(t_seq)
+  log_sigma <- mean(y - alpha * x) / alpha
+  exp(log_sigma)
+}
+
+have_stabledist <- requireNamespace("stabledist", quietly = TRUE)
+
+VaR_ES_stable <- function(alpha, sigma, mu, p) {
+  if (have_stabledist) {
+    q <- stabledist::qstable(p, alpha = alpha, beta = 0, gamma = sigma, delta = mu, pm = 1)
+    VaR <- -q
+    us  <- seq(p / 200, p, length.out = 200)
+    qs  <- stabledist::qstable(us, alpha = alpha, beta = 0, gamma = sigma, delta = mu, pm = 1)
+    ES  <- -mean(qs)
+  } else {
+    N <- 200000
+    X <- mu + sigma * rstable_sym(N, alpha)
+    q <- quantile(X, p)
+    VaR <- -as.numeric(q)
+    ES  <- -mean(X[X <= q])
+  }
+  c(VaR = VaR, ES = ES)
+}
+
+risk_table <- data.frame()
+for (nm in names(price_series)) {
+  r <- log_return(price_series[[nm]])
+  alpha_source <- "CF"   # explicit choice -- change to "adaptive" to compare
+  alpha_hat <- min(max(results_df[results_df$series == nm, paste0("est_", alpha_source)], 0.05), 1.99)
+  mu_hat    <- median(r)
+  sigma_hat <- sigma_hat_from_returns(r, alpha_hat, K = min(5, length(r) - 1))
+
+  s95 <- VaR_ES_stable(alpha_hat, sigma_hat, mu_hat, 0.05)
+  s99 <- VaR_ES_stable(alpha_hat, sigma_hat, mu_hat, 0.01)
+
+  mu_n <- mean(r); sd_n <- sd(r)
+  z95 <- qnorm(0.05); z99 <- qnorm(0.01)
+  VaR95_n <- -(mu_n + z95 * sd_n)
+  VaR99_n <- -(mu_n + z99 * sd_n)
+  ES95_n  <- -(mu_n - sd_n * dnorm(z95) / 0.05)
+  ES99_n  <- -(mu_n - sd_n * dnorm(z99) / 0.01)
+
+  risk_table <- rbind(risk_table, data.frame(
+    series = nm, alpha_source = alpha_source,
+    alpha_hat = round(alpha_hat, 3), sigma_hat = round(sigma_hat, 5),
+    VaR95_stable = round(100 * s95["VaR"], 3), VaR95_normal = round(100 * VaR95_n, 3),
+    VaR99_stable = round(100 * s99["VaR"], 3), VaR99_normal = round(100 * VaR99_n, 3),
+    ES95_stable  = round(100 * s95["ES"], 3),  ES95_normal  = round(100 * ES95_n, 3),
+    ES99_stable  = round(100 * s99["ES"], 3),  ES99_normal  = round(100 * ES99_n, 3)
+  ))
+}
+
+print(risk_table)
+write.csv(risk_table, "risk_analysis_stable_vs_normal.csv", row.names = FALSE)
+
+
+## -----------------------------------------------------------------------
+## 6. Risk comparison chart: stable vs Normal 99% Expected Shortfall
+## -----------------------------------------------------------------------
+
+dev.new()
+op <- par(mar = c(6, 4, 3, 2))
+m2 <- t(as.matrix(risk_table[, c("ES99_stable", "ES99_normal")]))
+colnames(m2) <- risk_table$series
+barplot(m2, beside = TRUE, col = c("firebrick", "steelblue"),
+        ylab = "ES99 (% of price)", las = 2,
+        main = "99% Expected Shortfall: stable fit vs Normal benchmark")
+legend("topright", legend = c("Stable (heavy-tailed)", "Normal"),
+       fill = c("firebrick", "steelblue"), bty = "n")
+par(op)
